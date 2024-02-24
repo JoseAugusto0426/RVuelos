@@ -1,32 +1,41 @@
-﻿using ComidaRapida.Data;
+﻿using ComidaRapida.Context;
+using ComidaRapida.Data;
+using ComidaRapida.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+namespace ComidaRapida.Servicios;
 
-using ComidaRapida.Pages;
-
-namespace ComidaRapida.Services
+public class ComidaService : IComidaService
 {
-    public class ComidaService : IComidaService
-    {
-        //Metodo para consultar las facturas..
-        public List<Factura> Consultar(string filtro) => Memoria
-            .Facturas.Where(c => c.Cliente.Contains(filtro)).ToList();
-        //Metodo para guardar la factura...
-        public bool Crear(Factura data)
-        {
-            try
-            {
-                var nombre = (Memoria.Facturas != null && Memoria.Facturas.Any()) ?
-                Memoria.Facturas.Max(n => n.Numero) + 1 : 1;
-                data.Numero = nombre;
-                data.Fecha = DateTime.Now;
-                Memoria.Facturas?.Add(data);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-           
+    private readonly IRVDbContext dbContext;
 
+    public ComidaService(IRVDbContext dbContext)
+    {
+        this.dbContext = dbContext;
+    }
+    public bool Crear(Factura datos)
+    {
+        var proxima_factura =
+            (dbContext.Facturas.Any()) ?
+            dbContext.Facturas.Max(f => f.Numero) + 1 : 1;
+        datos.Numero = proxima_factura;
+        datos.Fecha = DateTime.Now;
+        try
+        {
+            dbContext.Facturas!.Add(datos);
+            dbContext.SaveChanges();
+            return true;
         }
+        catch
+        {
+            return false;
+        }
+    }
+    public List<Factura> Consultar(string filtro = "")
+    {
+        return dbContext.Facturas
+            .Include(f => f.Detalles)
+            .Where(f => f.Cliente.Contains(filtro))
+            .ToList();
     }
 }

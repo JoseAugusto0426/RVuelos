@@ -1,0 +1,77 @@
+﻿﻿@using ComidaRapida.Data;
+﻿@using ComidaRapida.Pages;
+
+@inject ComidaRapida.Services.IComidaService services;
+@page "/facturas"
+<h3>Reservacion de Vuelos</h3>
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Filtrar</span>
+    <input type="text" class="form-control" @bind="Filtro">
+    <span class="input-group-text" id="basic-addon2">
+        <span class="btn btn-secondary" @onclick="Buscar">Buscar</span>
+    </span>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Aeropuerto</th>
+            <th scope="col">Destino</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Fecha</th>       
+            <th scope="col">Total</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Datos != null && Datos.Any())
+        {
+            @foreach (var factura in Datos)
+            {
+                <tr>
+                    <th scope="row">@factura.Numero</th>
+                 
+
+                    <td>@factura.Cliente</td>
+                    <td>@factura.Destino</td>
+                    <td>@factura.Fecha.ToString("h:m:s")</td>
+                    <td>@factura.Fecha.ToString("dd/MM/yyyy")</td>
+
+                    <td>RD$ @factura.Total.ToString("N2")</td>
+
+                 
+                </tr>
+
+            }
+        }
+    </tbody>
+</table>
+@code {
+    public string Filtro { get; set; } = "";
+    public List<Factura> Datos { get; set; } = new List<Factura>();
+    protected async override Task OnInitializedAsync()
+    {
+        Buscar();
+        await Task.Delay(1);
+    }
+    void Buscar()
+    {
+        Datos = services.Consultar(Filtro);
+        StateHasChanged();
+    }
+    public void Eliminar(Factura factura)
+    {
+        // Verifica si la lista de facturas contiene la factura que deseas eliminar
+        if (Memoria.Facturas.Contains(factura))
+        {
+            // Elimina la factura de la lista
+            Memoria.Facturas.Remove(factura);
+        }
+    }
+
+
+
+
+
+
+}

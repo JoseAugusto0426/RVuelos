@@ -1,0 +1,132 @@
+﻿@inject ComidaRapida.Services.IComidaService servicios;
+
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-header">
+            <h2>Registrar Vuelos</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        @*Requiero colocar el nombre del cliente a venderle*@
+        <div class="row">
+            <div class="col">
+                <label class="form-label">Aeropuerto</label>
+                <input class="form-control" type="text" @bind="Factura.Cliente" />
+            </div>
+            <div class="col">
+                <label class="form-label">Destino</label>
+                <input class="form-control" type="text" @bind="Factura.Destino" />
+            </div>
+        </div>
+        @*Requiero informar que articulos le estoy vendiendo*@
+        <div class="row">
+        </div>
+        <div class="row mt-2">
+            <h5>
+                Detalles
+                <span class="btn btn-outline-success" @onclick="AgregarDetalle_a_Factura">
+                    Agregar
+                </span>
+            </h5>
+            <div class="container">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr class="row">
+                            <th class="col-2">Nombre</th>
+                            <th class="col-2"></th>
+                            <th class="col-2">Cliente</th>
+                            <th class="col-2">Precio</th>
+                            <th class="col-2">SubTotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Factura.Detalles != null && Factura.Detalles.Any())
+                        {
+                            @foreach (var detalle in Factura.Detalles)
+                            {
+                                <tr class="row">
+                                    <th class="col-2">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <span @onclick="()=>RemoverDetalle(detalle)" class="btn btn-danger"><span class="oi oi-trash"></span></span>
+                                            </span>
+                                            <input class="form-control" @bind="@detalle.Producto" type="text" />
+                                        </div>
+
+
+                                    </th>
+
+                                    <th class="col-2">
+
+
+                                        <input class="form-control" @bind="@detalle.Nombre" type="text" />
+
+                                    </th>
+                                
+
+                                    <th class="col-2">
+                                       
+
+                                        <input class="form-control" @bind="@detalle.Cantidad" type="number" />
+                                    </th>
+                                    <th class="col-2">
+                                        <input class="form-control" @bind="@detalle.Precio" />
+                                    </th>
+                                    <th class="col-1">
+                                        <span class="fw-bold"> @detalle.SubTotal.ToString("N2") </span>
+                                    </th>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="row">
+                            <th class="col-2">Nombre</th>
+                            <th class="col-2">Cliente</th>
+                            <th class="col-2"></th>
+                            <th class="col-2">Total</th>
+                        </tr>
+                        <tr class="row">
+                            <th class="col-2"></th>
+                            <th class="col-2"></th>
+                            <th class="col-2"></th>
+                            <th class="col-2">RD$ @Factura.Total.ToString("N2")</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <span class="btn btn-success" @onclick="Registrar">Guardar</span>
+    </div>
+</div>
+@code {
+    public Data.Factura Factura { get; set; } = new();
+    protected async override Task OnInitializedAsync()
+    {
+
+        Factura = new();
+        await Task.Delay(10);
+    }
+    public void AgregarDetalle_a_Factura()
+    {
+        Factura.Detalles.Add(new());
+        StateHasChanged();
+    }
+    public void RemoverDetalle(Data.FacturaDetalle detalle)
+    {
+        Factura.Detalles.Remove(detalle);
+        StateHasChanged();
+    }
+    public void Registrar()
+    {
+        var regitro = servicios.Crear(Factura);
+        if (regitro)
+        {
+            Factura = new();
+            StateHasChanged();
+        }
+    }
+}

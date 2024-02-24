@@ -15,6 +15,7 @@
     <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Nombre</th>
             <th scope="col">Aeropuerto</th>
             <th scope="col">Destino</th>
             <th scope="col">Hora</th>
@@ -30,14 +31,15 @@
             {
                 <tr>
                     <th scope="row">@factura.Numero</th>
-                 
 
+
+                    <td>  <img src="/img/OIP.jpg" alt="Dólar" width="20" height="30" /> @factura.Nombre</td>
                     <td>@factura.Cliente</td>
                     <td>@factura.Destino</td>
                     <td>@factura.Fecha.ToString("h:m:s")</td>
                     <td>@factura.Fecha.ToString("dd/MM/yyyy")</td>
 
-                    <td>RD$ @factura.Total.ToString("N2")</td>
+                    <td>   <img src="/img/dolar.png" alt="Dólar" width="50" height="30" /> @factura.Total.ToString("N2")</td>
 
                  
                 </tr>

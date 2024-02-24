@@ -10,11 +10,15 @@
     <div class="card-body">
         @*Requiero colocar el nombre del cliente a venderle*@
         <div class="row">
-            <div class="col">
+              <div class="col-3">
+                <label class="form-label">Nombre</label>
+                <input class="form-control" type="text" @bind="Factura.Nombre" />
+            </div>
+            <div class="col-3">
                 <label class="form-label">Aeropuerto</label>
                 <input class="form-control" type="text" @bind="Factura.Cliente" />
             </div>
-            <div class="col">
+            <div class="col-3">
                 <label class="form-label">Destino</label>
                 <input class="form-control" type="text" @bind="Factura.Destino" />
             </div>
@@ -34,8 +38,7 @@
                     <thead>
                         <tr class="row">
                             <th class="col-2">Nombre</th>
-                            <th class="col-2"></th>
-                            <th class="col-2">Cliente</th>
+                            <th class="col-2">Pasajero</th>
                             <th class="col-2">Precio</th>
                             <th class="col-2">SubTotal</th>
                         </tr>
@@ -49,21 +52,16 @@
                                     <th class="col-2">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1">
-                                                <span @onclick="()=>RemoverDetalle(detalle)" class="btn btn-danger"><span class="oi oi-trash"></span></span>
+                                                <span @onclick="()=>RemoverDetalle(detalle)" class="btn btn-danger"><span class="oi oi-trash"></span>Eliminar</span>
                                             </span>
-                                            <input class="form-control" @bind="@detalle.Producto" type="text" />
+                                           
                                         </div>
 
 
                                     </th>
 
-                                    <th class="col-2">
-
-
-                                        <input class="form-control" @bind="@detalle.Nombre" type="text" />
-
-                                    </th>
-                                
+                  
+                    
 
                                     <th class="col-2">
                                        
@@ -71,9 +69,14 @@
                                         <input class="form-control" @bind="@detalle.Cantidad" type="number" />
                                     </th>
                                     <th class="col-2">
-                                        <input class="form-control" @bind="@detalle.Precio" />
+                                        <input class="form-control" @bind="@detalle.Precio" type="number" min="500" max="2000" />
+
+
+
+
+
                                     </th>
-                                    <th class="col-1">
+                                    <th class="col-2">
                                         <span class="fw-bold"> @detalle.SubTotal.ToString("N2") </span>
                                     </th>
                                 </tr>
@@ -82,16 +85,18 @@
                     </tbody>
                     <tfoot>
                         <tr class="row">
-                            <th class="col-2">Nombre</th>
-                            <th class="col-2">Cliente</th>
                             <th class="col-2"></th>
-                            <th class="col-2">Total</th>
+                            <th class="col-2"></th>
+                            <th class="col-2"></th>
                         </tr>
                         <tr class="row">
                             <th class="col-2"></th>
                             <th class="col-2"></th>
                             <th class="col-2"></th>
-                            <th class="col-2">RD$ @Factura.Total.ToString("N2")</th>
+                            <th class="col-2">
+                                <img src="/img/dolar.png" alt="Dólar" width="50" height="30" />
+                                 @Factura.Total.ToString("N2")
+                            </th>
                         </tr>
                     </tfoot>
                 </table>

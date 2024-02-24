@@ -25,5 +25,7 @@ namespace ComidaRapida.Data
         public decimal SubTotal => Cantidad * Precio;
 
 
+
+
     }
 }

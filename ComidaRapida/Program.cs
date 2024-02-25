@@ -5,6 +5,7 @@ using ComidaRapida.Services;
 using ComidaRapida.Pages;
 using ComidaRapida.Context;
 using Microsoft.EntityFrameworkCore;
+using ComidaRapida.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 Memoria.Facturas = new();

@@ -2,7 +2,7 @@
 ﻿@using ComidaRapida.Pages;
 
 @inject ComidaRapida.Services.IComidaService services;
-@page "/facturas"
+@page "/Vuelos"
 <h3>Reservacion de Vuelos</h3>
 <div class="input-group mb-3">
     <span class="input-group-text" id="basic-addon1">Filtrar</span>
@@ -17,9 +17,9 @@
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
             <th scope="col">Aeropuerto</th>
-            <th scope="col">Destino</th>
-            <th scope="col">Hora</th>
-            <th scope="col">Fecha</th>       
+            <th scope="col"> Destino</th>
+            <th scope="col"> <img src="/img/hora.jpg" alt="Dólar" width="50" height="30" />Hora</th>
+            <th scope="col">  <img src="/img/fc.jpg" alt="Dólar" width="50" height="30" /> Fecha</th>
             <th scope="col">Total</th>
 
         </tr>
@@ -35,9 +35,9 @@
 
                     <td>  <img src="/img/OIP.jpg" alt="Dólar" width="20" height="30" /> @factura.Nombre</td>
                     <td>@factura.Cliente</td>
-                    <td>@factura.Destino</td>
-                    <td>@factura.Fecha.ToString("hh:mm:ss")</td>
-                    <td>@factura.Fecha.ToString("dd/MM/yyyy")</td>
+                    <td>  <img src="/img/vi.jpg" alt="Dólar" width="50" height="30" />@factura.Destino</td>
+                    <td> @factura.Fecha.ToString("hh:mm:ss")</td>
+                    <td>   @factura.Fecha.ToString("dd/MM/yyyy")</td>
 
                     <td>   <img src="/img/dolar.jpg" alt="Dólar" width="50" height="30" /> @factura.Total.ToString("N2")</td>
 
